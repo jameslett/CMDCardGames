@@ -102,18 +102,44 @@ class Deck
 			}
 		}
 
-		Card(const Card& old) {
-			value = old.value;
-			id = old.id;
-			suit = old.suit;
-		}
-		Card& operator=(const Card& other)
+
+
+
+	
+
+		Card(Card&& other) noexcept // move constructor
+			:suit(other.suit),
+			value(other.value),
+			id(other.id)
 		{
-			
+			}
+
+
+
+		Card& operator=(Card&& other) noexcept // move assignment
+		{
+			if (&other!= this)
+			{
+				suit = other.suit;
+				value = other.value;
+				id = other.id;
+
+				
+			}
 			return *this;
 		}
 
 
+		Card(const Card& other) // copy constructor
+			: suit(other.suit),
+			value(other.value),
+			id(other.id)
+		{}
+
+		Card& operator=(const Card& other) // copy assignment
+		{
+			return *this = Card(other);
+		}
 
 		Suit GetSuit() {
 			return suit;
@@ -131,6 +157,10 @@ class Deck
 	
 	
 	private:
+
+
+
+
 		std::string suits[4] = {
 			"Hearts",
 			"Clubs",
@@ -146,18 +176,15 @@ class Deck
 	};
 
 	public:
-		Deck(int numDecks = 1) {
+	Deck(int numDecks = 1) {
 			for (int i = 0; i < 52 * numDecks; i++) {
 		
-				cards.push_back(std::make_shared<Card>(i * numDecks));
+				cards.push_back(std::make_unique<Card>(i * numDecks));
 			}
-		}
-		std::shared_ptr<Card> Draw() {
-			int index = cards.size() - 1;
-			std::shared_ptr<Card> c = cards[index];
-			cards.pop_back();
+	}
+		std::unique_ptr<Card> Draw() {
 
-		 return c;
+			return std::move(cards[0]);
 		
 
 			
@@ -169,16 +196,20 @@ class Deck
 			return cards.size();
 		}
 		void PrintDeck() {
-			for (auto n : cards) {
-				std::cout << n->GetName() << std::endl;
+			for (int i = 0; i < cards.size();i++) {
+				std::cout << cards[i]->GetName() << std::endl;
 			}
 		}
-		void shuffle() {
+		void Shuffle() {
 			std::srand(std::time(0));
 			std::random_shuffle(cards.begin(), cards.end());
 		}
+
 	private:
-	std::vector<std::shared_ptr<Card>> cards;
+
+		
+
+	std::vector<std::unique_ptr<Card>> cards;
 
 };
 

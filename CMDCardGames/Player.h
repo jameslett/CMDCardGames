@@ -11,14 +11,17 @@ public:
 	{
 
 	}
-	void Draw(std::shared_ptr<Deck::Card> card) {
-		
-		hand.push_back(card);
+
+	void TakeCard(std::unique_ptr<Deck::Card> card) {
+
+		hand.push_back(std::move(card));
+
 	}
+
 	void PrintHand() {
 		
 		for (int i = 0; i < hand.size(); i ++) {
-			std::cout << hand[i]->GetName() << std::endl;
+		std::cout << hand[i]->GetName() << std::endl;
 		}
 	}
 	void PrintHandSize() {
