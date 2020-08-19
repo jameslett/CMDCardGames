@@ -100,6 +100,8 @@ class Deck
 				value = Value::Ace;
 				break;
 			}
+			
+
 		}
 
 
@@ -147,32 +149,36 @@ class Deck
 		Value GetValue() {
 			return value;
 		}
-		std::string GetName() {
-			std::string suitstr = suits[int(suit)];
-			std::string valuestr = values[int(value)];
-			std::string out = valuestr + " of " + suitstr;
-			return out;
-		}
 
 	
 	
-	private:
+	
 
 
 
 
-		std::string suits[4] = {
+		std::vector<std::string> suits  {
 			"Hearts",
 			"Clubs",
 			"Diamonds",
 			"Spades" };
 
-		std::string values[13] = {
+		std::vector<std::string> values {
 			 "Ace","Two", "Three", "Four", "Five", "Six", "Seven","Eight", "Nine", "Ten", "Jack", "Queen", "King"
 		};
 		Suit suit;
 		Value value;
 		int id;
+
+
+		public:
+			void PrintName() {
+
+				std::string out = values[int(value)] + " of " + suits[int(suit)];
+				std::cout << out << std::endl;
+			}
+
+
 	};
 
 	public:
@@ -184,7 +190,9 @@ class Deck
 	}
 		std::unique_ptr<Card> Draw() {
 
-			return std::move(cards[0]);
+			std::unique_ptr<Card> c = std::move(cards[0]);
+			cards.erase(cards.begin());
+			return std::move(c);
 		
 
 			
@@ -196,14 +204,16 @@ class Deck
 			return cards.size();
 		}
 		void PrintDeck() {
-			for (int i = 0; i < cards.size();i++) {
-				std::cout << cards[i]->GetName() << std::endl;
+			for (auto& c : cards) {
+				c->PrintName();
+
 			}
 		}
 		void Shuffle() {
 			std::srand(std::time(0));
 			std::random_shuffle(cards.begin(), cards.end());
 		}
+
 
 	private:
 

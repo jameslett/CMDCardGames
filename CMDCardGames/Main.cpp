@@ -2,10 +2,12 @@
 //
 #include "Main.h"
 #include "Game.h"
-
+#include "Deck.h"
 int main()
 {
-	Game game(4,7);
+	Game game(1,52);
+	game.Go();
+	
 
 }
 

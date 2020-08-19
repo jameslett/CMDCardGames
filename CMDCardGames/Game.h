@@ -6,16 +6,13 @@ class Game
 {
 
 public:
-	Game(int numPlayer, int numCards, int numDecks = 1 )
-		:deck(Deck(numDecks))
+	Game(int numPlayer, int numCards, int numDecks = 1)
+		:deck(Deck(numDecks)),
+		numCards(numCards),
+		numPlayer(numPlayer)
 	
 	{
-		AddPlayers(numPlayer);
-		std::cout << "There are " << numPlayer << " players" << std::endl;
-		Deal(numCards);
-		std::cout << "Dealing " << numCards << " cards" << std::endl;
-
-	}
+		}
 
 	void AddPlayers(int numPlayers) {
 		for (int i = 0; i < numPlayers; i++) {
@@ -44,7 +41,22 @@ public:
 		}
 	}
 
+	void Go() {
+		AddPlayers(numPlayer);
+		std::cout << "There are " << numPlayer << " players" << std::endl;
+		deck.Shuffle();
+		Deal(numCards);
+		std::cout << "Dealing " << numCards << " cards" << std::endl;
+		players[0]->CheckForPairs();
+		players[0]->PrintHand();
+		std::cout << players[0]->GetMatches();
+
+	}
+
 private:
+	int numPlayer;
+	int numCards;
+	int SelectedPlayer = 0;
 	Deck deck;
 	std::vector<std::shared_ptr<Player>> players;
 };
