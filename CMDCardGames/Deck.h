@@ -149,6 +149,14 @@ class Deck
 		Value GetValue() {
 			return value;
 		}
+		void PrintName() {
+
+			std::string out = values[int(value)] + " of " + suits[int(suit)];
+			std::cout << out << std::endl;
+		}
+		std::string GetValueStr() {
+			return values[int(value)];
+		}
 
 	
 	
@@ -172,13 +180,7 @@ class Deck
 
 
 		public:
-			void PrintName() {
-
-				std::string out = values[int(value)] + " of " + suits[int(suit)];
-				std::cout << out << std::endl;
-			}
-
-
+		
 	};
 
 	public:

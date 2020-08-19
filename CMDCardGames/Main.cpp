@@ -5,7 +5,7 @@
 #include "Deck.h"
 int main()
 {
-	Game game(1,52);
+	Game game(4,7);
 	game.Go();
 	
 
